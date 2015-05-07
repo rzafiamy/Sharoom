@@ -35,7 +35,7 @@ public class ClientHandler implements HttpHandler {
         
         server = _serv;
         sharedFile = server.sharedToArray();
-        httpm = new HTTPmodel();
+        httpm = new HTTPmodel(server.getConfig());
         this.page = httpm.HomePage();
         content = new ContentType();
     }

@@ -49,10 +49,15 @@ public class SharoomGUI extends javax.swing.JFrame {
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         
         // Log Manager
-        this.logmanager = new LogManager(logPanel);
+        this.logmanager     = new LogManager(logPanel);
         
         // Filtre
-        filtermodel = new FilterModel();
+        filtermodel         = new FilterModel();
+        
+        // Dialog config
+        this.configDialog   = new ConfigurationDialog(this,true,this.config);
+        
+        compteurConfig      = 0;
     }
     /*
      * Delete file from GUI
@@ -112,11 +117,13 @@ public class SharoomGUI extends javax.swing.JFrame {
         StartButton = new javax.swing.JButton();
         DeleteAllButton = new javax.swing.JButton();
         SharoomMenuBar = new javax.swing.JMenuBar();
-        FileMenu = new javax.swing.JMenu();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        AboutPanel = new javax.swing.JMenu();
+        MenuFile = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItemExit = new javax.swing.JMenuItem();
+        MenuTools = new javax.swing.JMenu();
+        jMenuItemShowConfiguration = new javax.swing.JMenuItem();
+        jMenuItemAbout = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SHAROOM");
@@ -219,6 +226,7 @@ public class SharoomGUI extends javax.swing.JFrame {
         CurrentCategoryLabel.setBackground(new java.awt.Color(255, 255, 255));
         CurrentCategoryLabel.setFont(new java.awt.Font("Aegean", 1, 18)); // NOI18N
         CurrentCategoryLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        CurrentCategoryLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sharoom/icons/music.png"))); // NOI18N
         CurrentCategoryLabel.setText("MUSIC");
         CurrentCategoryLabel.setOpaque(true);
         CurrentCategoryLabel.setPreferredSize(new java.awt.Dimension(120, 40));
@@ -227,14 +235,20 @@ public class SharoomGUI extends javax.swing.JFrame {
         FileUploaderPanel.setBackground(new java.awt.Color(255, 255, 255));
         FileUploaderPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-        UploadFileButton.setBackground(new java.awt.Color(0, 0, 0));
+        UploadFileButton.setBackground(new java.awt.Color(195, 195, 195));
         UploadFileButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        UploadFileButton.setForeground(new java.awt.Color(255, 255, 255));
-        UploadFileButton.setText("Upload...");
+        UploadFileButton.setForeground(new java.awt.Color(5, 0, 0));
+        UploadFileButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sharoom/icons/upload.png"))); // NOI18N
+        UploadFileButton.setText("Upload files");
         UploadFileButton.setPreferredSize(new java.awt.Dimension(150, 40));
         UploadFileButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 UploadFileButtonMouseClicked(evt);
+            }
+        });
+        UploadFileButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UploadFileButtonActionPerformed(evt);
             }
         });
         FileUploaderPanel.add(UploadFileButton);
@@ -251,8 +265,9 @@ public class SharoomGUI extends javax.swing.JFrame {
         ActionPanel.setMinimumSize(new java.awt.Dimension(100, 50));
         ActionPanel.setPreferredSize(new java.awt.Dimension(195, 50));
 
-        StartButton.setBackground(new java.awt.Color(102, 0, 0));
+        StartButton.setBackground(new java.awt.Color(26, 160, 73));
         StartButton.setForeground(new java.awt.Color(255, 255, 255));
+        StartButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sharoom/icons/start.png"))); // NOI18N
         StartButton.setText("Start");
         StartButton.setPreferredSize(new java.awt.Dimension(150, 40));
         StartButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -262,12 +277,18 @@ public class SharoomGUI extends javax.swing.JFrame {
         });
         ActionPanel.add(StartButton);
 
-        DeleteAllButton.setBackground(new java.awt.Color(51, 51, 51));
+        DeleteAllButton.setBackground(new java.awt.Color(127, 2, 2));
         DeleteAllButton.setForeground(new java.awt.Color(255, 255, 255));
+        DeleteAllButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sharoom/icons/delete.png"))); // NOI18N
         DeleteAllButton.setText("Delete all");
         DeleteAllButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 DeleteAllButtonMouseClicked(evt);
+            }
+        });
+        DeleteAllButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DeleteAllButtonActionPerformed(evt);
             }
         });
         ActionPanel.add(DeleteAllButton);
@@ -281,41 +302,55 @@ public class SharoomGUI extends javax.swing.JFrame {
         SharoomMenuBar.setBackground(new java.awt.Color(0, 0, 0));
         SharoomMenuBar.setForeground(new java.awt.Color(255, 255, 255));
 
-        FileMenu.setForeground(new java.awt.Color(255, 255, 255));
-        FileMenu.setText("File");
+        MenuFile.setForeground(new java.awt.Color(255, 255, 255));
+        MenuFile.setText("File");
 
-        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem5.setText("Exit");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
-            }
-        });
-        FileMenu.add(jMenuItem5);
-
-        SharoomMenuBar.add(FileMenu);
-
-        AboutPanel.setForeground(new java.awt.Color(255, 255, 255));
-        AboutPanel.setText("Help");
-
-        jMenuItem1.setText("Show configuration");
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setText("Open");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        AboutPanel.add(jMenuItem1);
+        MenuFile.add(jMenuItem1);
 
-        jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem6.setText("About");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setText("Save");
+        MenuFile.add(jMenuItem2);
+
+        jMenuItemExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItemExit.setText("Exit");
+        jMenuItemExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
+                jMenuItemExitActionPerformed(evt);
             }
         });
-        AboutPanel.add(jMenuItem6);
+        MenuFile.add(jMenuItemExit);
 
-        SharoomMenuBar.add(AboutPanel);
+        SharoomMenuBar.add(MenuFile);
+
+        MenuTools.setForeground(new java.awt.Color(255, 255, 255));
+        MenuTools.setText("Tools");
+
+        jMenuItemShowConfiguration.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK));
+        jMenuItemShowConfiguration.setText("Configuration");
+        jMenuItemShowConfiguration.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemShowConfigurationActionPerformed(evt);
+            }
+        });
+        MenuTools.add(jMenuItemShowConfiguration);
+
+        jMenuItemAbout.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItemAbout.setText("About");
+        jMenuItemAbout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemAboutActionPerformed(evt);
+            }
+        });
+        MenuTools.add(jMenuItemAbout);
+
+        SharoomMenuBar.add(MenuTools);
 
         setJMenuBar(SharoomMenuBar);
 
@@ -355,11 +390,12 @@ public class SharoomGUI extends javax.swing.JFrame {
             }
         }
         else{
-            this.messageDialog.alert("Check first that server is running! (click on start button)");
+            this.messageDialog.alert("Please, check wether server is running correctly. \nOtherwise click on start button.");
         }
     }//GEN-LAST:event_UploadFileButtonMouseClicked
 
     private void MusicButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MusicButtonMouseClicked
+       this.CurrentCategoryLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sharoom/icons/music.png")));
        this.CurrentCategoryLabel.setText("MUSIC");
        this.idCurrentCategory = 0;
        java.awt.CardLayout c = (java.awt.CardLayout)this.FileBoxMainPanel.getLayout();
@@ -367,6 +403,7 @@ public class SharoomGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_MusicButtonMouseClicked
 
     private void PictureButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PictureButtonMouseClicked
+        this.CurrentCategoryLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sharoom/icons/picture.png")));
         this.CurrentCategoryLabel.setText("PICTURE");
         this.idCurrentCategory = 1;
         java.awt.CardLayout c = (java.awt.CardLayout)this.FileBoxMainPanel.getLayout();
@@ -374,6 +411,7 @@ public class SharoomGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_PictureButtonMouseClicked
 
     private void VideoButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_VideoButtonMouseClicked
+        this.CurrentCategoryLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sharoom/icons/video.png")));
         this.CurrentCategoryLabel.setText("VIDEO");
         this.idCurrentCategory = 2;
         java.awt.CardLayout c = (java.awt.CardLayout)this.FileBoxMainPanel.getLayout();
@@ -381,6 +419,7 @@ public class SharoomGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_VideoButtonMouseClicked
 
     private void DocumentButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DocumentButtonMouseClicked
+        this.CurrentCategoryLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sharoom/icons/document.png")));
         this.CurrentCategoryLabel.setText("DOCUMENT");
         this.idCurrentCategory = 3;
         java.awt.CardLayout c = (java.awt.CardLayout)this.FileBoxMainPanel.getLayout();
@@ -390,8 +429,13 @@ public class SharoomGUI extends javax.swing.JFrame {
     private void StartButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StartButtonMouseClicked
         
         
+        if(0 == this.compteurConfig)
+        {
+            this.messageDialog.alert("Listening on :\n"+this.config.getConfigVariable("IP")+":"+this.config.getConfigVariable("PORT"));
+            this.compteurConfig = 1;
+        }
         if(!isRunned){
-            this.server = new ServerHTTP(Integer.parseInt(config.getConfigVariable("PORT")),config.getConfigVariable("IP"));
+            this.server = new ServerHTTP(this.config);
             this.server.setLogManager(logmanager);
             
             this.server.start();
@@ -415,11 +459,11 @@ public class SharoomGUI extends javax.swing.JFrame {
         this.filecontroller.DeleteAllFileInFolderModel(this.CurrentCategoryLabel.getText());
         this.server.deleteAllSharedFile(this.CurrentCategoryLabel.getText().toUpperCase());
         // message
-        this.messageDialog.alert(this.CurrentCategoryLabel.getText()+":complètement effacée!");
+        this.messageDialog.alert(this.CurrentCategoryLabel.getText()+":All files are deleted!");
         
     }//GEN-LAST:event_DeleteAllButtonMouseClicked
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+    private void jMenuItemExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemExitActionPerformed
         
         if(isRunned){
             this.server.kill();
@@ -428,17 +472,14 @@ public class SharoomGUI extends javax.swing.JFrame {
         }
         
         this.dispose();
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
+    }//GEN-LAST:event_jMenuItemExitActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void jMenuItemShowConfigurationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemShowConfigurationActionPerformed
         
-        String  conf ="\n\n Type the following url on your browser to access on shared files:\n\n";
-                conf += "   http://"+this.config.getConfigVariable("IP")+":"+this.config.getConfigVariable("PORT")+"\n";
-                
-        this.infosDialog.infos(conf);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+        this.configDialog.setVisible(true);
+    }//GEN-LAST:event_jMenuItemShowConfigurationActionPerformed
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+    private void jMenuItemAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAboutActionPerformed
        
         String about =  "   Sharoom is used for sharing files between computer \n";
                about += "   and any other devices with web browser. This app. was \n";
@@ -451,7 +492,19 @@ public class SharoomGUI extends javax.swing.JFrame {
                about +="        rija.tgv.enisr@gmail.com\n";
                
         this.infosDialog.infos(about);
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
+    }//GEN-LAST:event_jMenuItemAboutActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void DeleteAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteAllButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DeleteAllButtonActionPerformed
+
+    private void UploadFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UploadFileButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_UploadFileButtonActionPerformed
 
     private void initPanelGUI(){
          // Message Dialog
@@ -481,7 +534,6 @@ public class SharoomGUI extends javax.swing.JFrame {
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu AboutPanel;
     private javax.swing.JPanel ActionPanel;
     private javax.swing.JPanel BannerPanel;
     private javax.swing.JPanel ContentPanel;
@@ -489,11 +541,12 @@ public class SharoomGUI extends javax.swing.JFrame {
     private javax.swing.JButton DeleteAllButton;
     private javax.swing.JButton DocumentButton;
     private javax.swing.JPanel FileBoxMainPanel;
-    private javax.swing.JMenu FileMenu;
     private javax.swing.JPanel FileUploaderPanel;
     private javax.swing.JPanel FooterPanel;
     private javax.swing.JPanel HeadPanel;
     private javax.swing.JPanel MainPanel;
+    private javax.swing.JMenu MenuFile;
+    private javax.swing.JMenu MenuTools;
     private javax.swing.JButton MusicButton;
     private javax.swing.JButton PictureButton;
     private javax.swing.JPanel ShareBoxPanel;
@@ -504,22 +557,27 @@ public class SharoomGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItemAbout;
+    private javax.swing.JMenuItem jMenuItemExit;
+    private javax.swing.JMenuItem jMenuItemShowConfiguration;
     // End of variables declaration//GEN-END:variables
 
     // Attributs
     private int idCurrentCategory;
+    private int compteurConfig;
     private javax.swing.JPanel [] FileBoxPanel;
     private javax.swing.JScrollPane []FileBoxScrollPane;
     private javax.swing.JFileChooser FileUploadChooser;
     private MessageDialog messageDialog;
     private InfosDialog infosDialog;
+    private ConfigurationDialog configDialog;
     private FileManager filecontroller;
     private boolean isRunned;
     private Config config;
     private ServerHTTP server;
     private LogManager logmanager;
     private FilterModel filtermodel;
+    
     
 }

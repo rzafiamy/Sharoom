@@ -17,14 +17,14 @@ public class MessageDialog extends javax.swing.JDialog {
     public MessageDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        this.pack();
     }
     
     public void alert(String _msg){
         
         this.MessageLabel.setText(_msg);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-        this.pack();
         this.setVisible(true);
     }
     /**
@@ -38,7 +38,8 @@ public class MessageDialog extends javax.swing.JDialog {
 
         MessagePanel = new javax.swing.JPanel();
         OkButton = new javax.swing.JButton();
-        MessageLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        MessageLabel = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Message");
@@ -53,7 +54,7 @@ public class MessageDialog extends javax.swing.JDialog {
         MessagePanel.setMinimumSize(new java.awt.Dimension(350, 170));
         MessagePanel.setPreferredSize(new java.awt.Dimension(350, 170));
 
-        OkButton.setBackground(new java.awt.Color(51, 51, 51));
+        OkButton.setBackground(new java.awt.Color(126, 10, 10));
         OkButton.setForeground(new java.awt.Color(255, 255, 255));
         OkButton.setText("Ok");
         OkButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -62,10 +63,13 @@ public class MessageDialog extends javax.swing.JDialog {
             }
         });
 
-        MessageLabel.setFont(new java.awt.Font("DejaVu Sans Mono", 0, 12)); // NOI18N
-        MessageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        MessageLabel.setText("Congratulation !");
-        MessageLabel.setPreferredSize(new java.awt.Dimension(255, 75));
+        MessageLabel.setEditable(false);
+        MessageLabel.setBackground(new java.awt.Color(254, 254, 254));
+        MessageLabel.setColumns(20);
+        MessageLabel.setFont(new java.awt.Font("Noto Sans", 1, 10)); // NOI18N
+        MessageLabel.setRows(5);
+        MessageLabel.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jScrollPane1.setViewportView(MessageLabel);
 
         javax.swing.GroupLayout MessagePanelLayout = new javax.swing.GroupLayout(MessagePanel);
         MessagePanel.setLayout(MessagePanelLayout);
@@ -77,14 +81,14 @@ public class MessageDialog extends javax.swing.JDialog {
                 .addContainerGap(127, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MessagePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(MessageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
         MessagePanelLayout.setVerticalGroup(
             MessagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MessagePanelLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(MessageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(OkButton)
                 .addContainerGap())
@@ -101,8 +105,9 @@ public class MessageDialog extends javax.swing.JDialog {
 
  
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel MessageLabel;
+    private javax.swing.JTextArea MessageLabel;
     private javax.swing.JPanel MessagePanel;
     private javax.swing.JButton OkButton;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

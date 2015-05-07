@@ -52,6 +52,7 @@ public class LogPanel extends javax.swing.JPanel {
         LogLabel.setBackground(new java.awt.Color(255, 255, 255));
         LogLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         LogLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        LogLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sharoom/icons/log.png"))); // NOI18N
         LogLabel.setText("LOG OF FILE ACCESS");
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
@@ -92,7 +93,7 @@ public class LogPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(LogLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents

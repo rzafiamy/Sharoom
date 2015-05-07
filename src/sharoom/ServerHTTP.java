@@ -7,6 +7,7 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.ClientHandler;
+import model.Config;
 import model.FolderCategory;
 import model.FolderModel;
 import model.LogModel;
@@ -20,8 +21,7 @@ import model.LogModel;
 
 public class ServerHTTP extends Thread{
     
-    private int port;
-    private String hostname;
+    private Config config;
 
     private FolderModel fileListmusic;
     private FolderModel fileListpicture;
@@ -30,10 +30,9 @@ public class ServerHTTP extends Thread{
     
     private LogManager logmanager;
     
-    public ServerHTTP(int _port,String host){
+    public ServerHTTP(Config _config){
         
-            this.port = _port;
-            this.hostname = host;
+            this.config   = _config;
             this.fileListdocument = new FolderModel(FolderCategory.DOCUMENT);
             this.fileListvideo = new FolderModel(FolderCategory.VIDEO);
             this.fileListpicture = new FolderModel(FolderCategory.PICTURE);
@@ -118,7 +117,7 @@ public class ServerHTTP extends Thread{
     @Override
     public void run() {
       
-        InetSocketAddress addr = new InetSocketAddress(this.hostname,this.port);
+        InetSocketAddress addr = new InetSocketAddress(this.config.getConfigVariable("IP"),Integer.parseInt(this.config.getConfigVariable("PORT")));
         
         HttpServer server = null;
         
@@ -155,4 +154,18 @@ public class ServerHTTP extends Thread{
    public void Log(LogModel log){
        this.logmanager.addLog(log);
    }
+   
+   
+   //--------------------------------------------------------------------------
+   // Getter / Setter
+   //--------------------------------------------------------------------------
+
+    public Config getConfig() {
+        return config;
+    }
+
+    public void setConfig(Config config) {
+        this.config = config;
+    }
+   
 }

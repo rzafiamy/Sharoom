@@ -18,10 +18,10 @@ public class HTTPmodel {
     private ContentType mime;
     private Config config;
     
-    public HTTPmodel(){
+    public HTTPmodel(Config _config){
         this.mime = new ContentType();
         this.code = 200;
-        config = new Config();
+        this.config = _config;
         this.initHead();
     }
     
@@ -54,7 +54,7 @@ public class HTTPmodel {
         this.footPage = new String("");
         this.footPage+="<div data-role=\"footer\" data-theme=\"a\">\n" +
                         "<!-- footer -->\n" +
-                        "<span>elio production 2014</span>\n" +
+                        "<span>Licence GPL v3</span>\n" +
                     "</div>\n</div>\n";
         
     }

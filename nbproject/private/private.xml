@@ -3,14 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/rleo/Documents/Sharroom2/src/sharoom/view/LogPanel.java</file>
-            <file>file:/C:/Users/rleo/Documents/Sharroom2/src/sharoom/view/SharoomGUI.java</file>
-            <file>file:/C:/Users/rleo/Documents/Sharroom2/src/sharoom/view/MessageDialog.java</file>
-            <file>file:/C:/Users/rleo/Documents/Sharroom2/src/sharoom/view/InfosDialog.java</file>
-            <file>file:/C:/Users/rleo/Documents/Sharroom2/src/sharoom/view/FilePanel.java</file>
-            <file>file:/C:/Users/rleo/Documents/Sharroom2/src/model/ClientHandler.java</file>
-            <file>file:/C:/Users/rleo/Documents/Sharroom2/src/sharoom/ServerHTTP.java</file>
-            <file>file:/C:/Users/rleo/Documents/Sharroom2/src/sharoom/LogManager.java</file>
+            <file>file:/media/PROGRAM/Github/Sharoom/src/sharoom/view/SharoomGUI.java</file>
+            <file>file:/media/PROGRAM/Github/Sharoom/src/sharoom/view/LogPanel.java</file>
         </group>
     </open-files>
 </project-private>

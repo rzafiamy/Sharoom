@@ -16,6 +16,8 @@ public class InfosDialog extends javax.swing.JDialog {
     public InfosDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+        this.setTitle("About");
     }
     
     public void infos(String message){

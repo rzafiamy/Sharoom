@@ -192,4 +192,35 @@ public class FileManager {
       
        return 0;
     }
+    
+    /**
+     * Vérifie si un fichier existe dans le dossier
+     * @param _file
+     * @param _ctg
+     * @return 
+     */
+    public boolean checkIfExist(String _file,String _ctg){
+        // music category
+       if(_ctg.compareTo(FolderCategory.MUSIC.toString())==0)
+       {
+           return this.folder[0].checkIfExist(_file);
+       }
+       // picture category
+       else if(_ctg.compareTo(FolderCategory.PICTURE.toString())==0)
+       {
+           return this.folder[1].checkIfExist(_file);
+       }
+      // video category
+      else if(_ctg.compareTo(FolderCategory.VIDEO.toString())==0)
+      {
+          return this.folder[2].checkIfExist(_file);
+      }
+        // document category
+      else if(_ctg.compareTo(FolderCategory.DOCUMENT.toString())==0)
+      {
+          return this.folder[3].checkIfExist(_file);
+      }
+      
+       return true;
+    }
 }

@@ -19,17 +19,36 @@ public class FilterModel {
     
     public FilterModel(){
     
-            musicformat = new String[]{
-                ".mp3",".wav",".ogg",".amr"
+            musicformat = new String[]
+            {
+                ".3gp",".act",".aiff",".aac",".amr",".au",".awb",
+                ".dct",".dss",".dvf",".flac",".gsm",".iklax",".ivs",".wv",
+                ".m4a",".m4p",".mmf",".mp3",".mpc",".msv",".ogg",".oga",".webm",
+                ".opus",".ra",".rm",".raw",".sln",".tta",".vox",".wav",".wma"
             };
-            pictureformat = new String[]{
-                ".jpg",".jpeg",".png",".bmp",".tiff",".svg"
+            pictureformat = new String[]
+            {
+                ".jpg",".jpeg",".png",".bmp",".tiff",".svg","fpx",
+                ".gif",".ico",".jp2",".nef",".orf",".pcd",".pcx",".pict",
+                ".psd",".sfw","tga",".tif",".webp",".xcf"
             };
-            documentformat = new String[]{
-                ".doc",".docx",".pdf",".txt",".ppt",".pptx"
+            documentformat = new String[]
+            {
+                ".doc",".docx",".pdf",".txt",".ppt",".pptx",
+                ".csv",".ods",".xls",".xlsx",
+                ".7z  ",".apk",".bz2",".gz",".gzip",".jar",
+                ".rar ",".tar",".tgz ",".zip",
+                ".odt",".ods",".odp",".odg",".odc",".odf",".odb",
+                ".odi",".odm",".ott",".ots",".otp",".otg"
             };
-            videoformat = new String[]{
-                ".mpeg",".dat",".avi",".flv",".ogg",".mkv",".mp4",".mpeg4"
+            videoformat = new String[]
+            {
+                ".mpeg",".dat",".avi",".flv",".ogg",".mkv",".mp4",".mpeg4",
+                ".3g2",".3gp",".3gpp",".asf",".divx",".f4v",".h264",
+                ".ifo",".m2ts",".m4v",".mkv",".mod",".mov",".mpg",
+                ".mswmm",".mts",".mxf",".ogv",".rm",".swf",".ts",".vep",
+                ".vob",".webm",".wlmp",".wmv"
+
             };            
     }
     

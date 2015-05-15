@@ -14,7 +14,7 @@ public class ConfigurationDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form ConfigurationDialog
-     * @param parent
+     * @param parent 
      * @param modal
      * @param conf
      */

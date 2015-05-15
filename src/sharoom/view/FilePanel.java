@@ -56,7 +56,7 @@ public class FilePanel extends javax.swing.JPanel{
         FilenameField = new javax.swing.JTextField();
         DeleteButton = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(224, 255, 235));
+        setBackground(new java.awt.Color(254, 254, 254));
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
         setMaximumSize(new java.awt.Dimension(32767, 30));
         setMinimumSize(new java.awt.Dimension(100, 30));
@@ -64,7 +64,8 @@ public class FilePanel extends javax.swing.JPanel{
         setLayout(new java.awt.GridBagLayout());
 
         FilenameField.setEditable(false);
-        FilenameField.setBackground(new java.awt.Color(224, 255, 235));
+        FilenameField.setBackground(new java.awt.Color(254, 254, 254));
+        FilenameField.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         FilenameField.setText("Filename.txt");
         FilenameField.setBorder(null);
         gridBagConstraints = new java.awt.GridBagConstraints();

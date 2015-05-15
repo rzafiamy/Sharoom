@@ -88,6 +88,16 @@ public class SharoomGUI extends javax.swing.JFrame {
         this.FileBoxPanel[idCurrentCategory].add(file);
         this.FileBoxPanel[idCurrentCategory].updateUI();
     }
+    
+    /**
+     * Add new folder on GUI from Jfilechooser
+     * @param folder
+     */
+    public void AddFolderGUI(FolderPanel folder){
+        
+        this.FileBoxPanel[idCurrentCategory].add(folder);
+        this.FileBoxPanel[idCurrentCategory].updateUI();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -359,7 +369,11 @@ public class SharoomGUI extends javax.swing.JFrame {
 
     private void UploadFileButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UploadFileButtonMouseClicked
        
-        if(isRunned){
+        if(isRunned)
+        {
+            
+            int compteurDoublon = 0;
+            
             FileUploadChooser.setFileSelectionMode(javax.swing.JFileChooser.DIRECTORIES_ONLY);
             
             int retour = FileUploadChooser.showOpenDialog(this);
@@ -372,21 +386,43 @@ public class SharoomGUI extends javax.swing.JFrame {
                java.io.File dir=FileUploadChooser.getSelectedFile();
                
                File [] fs = dir.listFiles(filtermodel.getFilter(this.CurrentCategoryLabel.getText()));
-
+               
+              // FolderPanel fpanel = new FolderPanel(dir.getAbsolutePath());
+               
                for(; i<fs.length; ++i){ 
                    
-                   if(fs[i].isFile()){
+                   if(fs[i].isFile())
+                   {
+                       if(!filecontroller.checkIfExist(fs[i].getName(), this.CurrentCategoryLabel.getText()))
+                       {
                         this.AddFileGUI(new FilePanel(this,fs[i].getName()));
+                        //fpanel.addFilePanel(new FilePanel(this,fs[i].getName()));
+                       }
+                       else
+                       {
+                           compteurDoublon++;
+                       }
                    }
                }
-
+               /*if(fpanel.getNum() > 0)
+               {
+                this.AddFileGUI(fpanel);
+               }*/
+               
                // save uploaded file(s) in model
                filecontroller.Upload(fs,this.CurrentCategoryLabel.getText());
                String ctg = new String(this.CurrentCategoryLabel.getText().toUpperCase());
                this.server.initSharedFile(ctg,this.filecontroller.Download(ctg));
 
                // Affiche un message
-               this.messageDialog.alert(i+" file(s) added successfully !");
+               if(compteurDoublon==0)
+               {
+                    this.messageDialog.alert(i+" file(s) added successfully !");
+               }
+               else
+               {
+                   this.messageDialog.alert(compteurDoublon+" file(s) already exist and not added!");
+               }
             }
         }
         else{

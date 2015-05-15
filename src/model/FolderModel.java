@@ -29,9 +29,15 @@ public class FolderModel {
      * Ajoute un fichier dans le repertoire.
      * @param file 
      */
-    public void save(FileModel file){
+    public boolean save(FileModel file){
         
-        this.FileList.put(file.getName(), file);
+        if(!this.FileList.containsKey(file.getName()))
+        {
+            this.FileList.put(file.getName(), file);
+            return true;
+        }
+        
+        return false;
     }
     
     /**
@@ -45,6 +51,19 @@ public class FolderModel {
                 return this.FileList.get(_fname);
             }
             return null;
+    }
+   
+    /**
+     * Vérifie si un fichier existe dans le dossier
+     * @param _fname
+     * @return 
+     */
+    public boolean checkIfExist(String _fname){
+        
+            if(this.FileList.containsKey(_fname)){
+                return true;
+            }
+            return false;
     }
     
     /**

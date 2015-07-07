@@ -6,6 +6,8 @@ import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import model.*;
 import sharoom.FileManager;
 import sharoom.LogManager;
@@ -112,6 +114,7 @@ public class SharoomGUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         FooterPanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        jLabelStatus = new javax.swing.JLabel();
         ShareBoxPanel = new javax.swing.JPanel();
         MusicButton = new javax.swing.JButton();
         PictureButton = new javax.swing.JButton();
@@ -157,12 +160,13 @@ public class SharoomGUI extends javax.swing.JFrame {
         FooterPanel.setMaximumSize(new java.awt.Dimension(32767, 30));
         FooterPanel.setMinimumSize(new java.awt.Dimension(100, 30));
         FooterPanel.setPreferredSize(new java.awt.Dimension(400, 30));
-        FooterPanel.setLayout(new javax.swing.BoxLayout(FooterPanel, javax.swing.BoxLayout.LINE_AXIS));
+        FooterPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Sous licence GPL v3");
-        FooterPanel.add(jLabel2);
+        FooterPanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 7, -1, -1));
+        FooterPanel.add(jLabelStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 10, 520, 20));
 
         MainPanel.add(FooterPanel, java.awt.BorderLayout.PAGE_END);
 
@@ -385,32 +389,31 @@ public class SharoomGUI extends javax.swing.JFrame {
                // (sortie par OK)
                java.io.File dir=FileUploadChooser.getSelectedFile();
                
-               File [] fs = dir.listFiles(filtermodel.getFilter(this.CurrentCategoryLabel.getText()));
+               //File [] fs = dir.listFiles(filtermodel.getFilter(this.CurrentCategoryLabel.getText()));
+               HashMap<String,String> lfile = new HashMap<String,String>();
+               
+               
+               
+               filecontroller.findAllCtgFiles(lfile,dir.getAbsolutePath(),this.CurrentCategoryLabel.getText());
+               
                
               // FolderPanel fpanel = new FolderPanel(dir.getAbsolutePath());
                
-               for(; i<fs.length; ++i){ 
-                   
-                   if(fs[i].isFile())
-                   {
-                       if(!filecontroller.checkIfExist(fs[i].getName(), this.CurrentCategoryLabel.getText()))
+               for(Map.Entry<String,String> entry : lfile.entrySet())
+               { 
+                     if(!filecontroller.checkIfExist(entry.getKey(), this.CurrentCategoryLabel.getText()))
                        {
-                        this.AddFileGUI(new FilePanel(this,fs[i].getName()));
-                        //fpanel.addFilePanel(new FilePanel(this,fs[i].getName()));
+                        this.AddFileGUI(new FilePanel(this,entry.getKey()));
+                        i++;
                        }
                        else
                        {
                            compteurDoublon++;
                        }
-                   }
                }
-               /*if(fpanel.getNum() > 0)
-               {
-                this.AddFileGUI(fpanel);
-               }*/
                
-               // save uploaded file(s) in model
-               filecontroller.Upload(fs,this.CurrentCategoryLabel.getText());
+                // save uploaded file(s) in model
+               filecontroller.Upload(lfile,this.CurrentCategoryLabel.getText());
                String ctg = new String(this.CurrentCategoryLabel.getText().toUpperCase());
                this.server.initSharedFile(ctg,this.filecontroller.Download(ctg));
 
@@ -592,6 +595,7 @@ public class SharoomGUI extends javax.swing.JFrame {
     private javax.swing.JButton VideoButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabelStatus;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItemAbout;

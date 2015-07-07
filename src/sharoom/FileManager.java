@@ -1,5 +1,8 @@
 package sharoom;
 import java.io.File;
+import java.io.FilenameFilter;
+import java.util.HashMap;
+import java.util.Map;
 import model.*;
 
 /**
@@ -34,18 +37,21 @@ public class FileManager {
      * @param fileList
      * @param ctg 
      */
-    public int Upload(File[] fileList,String ctg){
+    public int Upload(HashMap<String,String> fileList,String ctg){
         
-        if(fileList!=null){
+        if(fileList!=null)
+        {
             // music category
             if(ctg.compareTo(FolderCategory.MUSIC.toString())==0){
                 
                 // convertir file en filemodel et stocke dans un foldermodel
-                for(int i=0;i<fileList.length;i++){
+                for(Map.Entry<String,String> entry : fileList.entrySet())
+                {
+                    File fi = new File(entry.getValue());
                     
-                    FileModel f = new FileModel(fileList[i].getName(),
-                                                fileList[i].getAbsolutePath(),
-                                                fileList[i].length());
+                    FileModel f = new FileModel(fi.getName(),
+                                                fi.getAbsolutePath(),
+                                                fi.length());
                     folder[0].save(f);
                 }
                 
@@ -55,10 +61,13 @@ public class FileManager {
             else if(ctg.compareTo(FolderCategory.PICTURE.toString())==0){
                 
                 // convertir file en filemodel et stocke dans un foldermodel
-                for(int i=0;i<fileList.length;i++){
-                    FileModel f = new  FileModel(fileList[i].getName(),
-                                                fileList[i].getAbsolutePath(),
-                                                fileList[i].length());
+                for(Map.Entry<String,String> entry : fileList.entrySet())
+                {
+                    File fi = new File(entry.getValue());
+                    
+                    FileModel f = new FileModel(fi.getName(),
+                                                fi.getAbsolutePath(),
+                                                fi.length());
                     folder[1].save(f);
                 }
                 return folder[1].getNumFile();
@@ -67,10 +76,13 @@ public class FileManager {
             else if(ctg.compareTo(FolderCategory.VIDEO.toString())==0){
                 
                 // convertir file en filemodel et stocke dans un foldermodel
-                for(int i=0;i<fileList.length;i++){
-                     FileModel f = new  FileModel(fileList[i].getName(),
-                                                fileList[i].getAbsolutePath(),
-                                                fileList[i].length());
+                for(Map.Entry<String,String> entry : fileList.entrySet())
+                {
+                    File fi = new File(entry.getValue());
+                    
+                    FileModel f = new FileModel(fi.getName(),
+                                                fi.getAbsolutePath(),
+                                                fi.length());
                     folder[2].save(f);
                 }
                 return folder[2].getNumFile();
@@ -78,10 +90,13 @@ public class FileManager {
             // document category
             else if(ctg.compareTo(FolderCategory.DOCUMENT.toString())==0){
                 
-                for(int i=0;i<fileList.length;i++){
-                     FileModel f = new  FileModel(fileList[i].getName(),
-                                                fileList[i].getAbsolutePath(),
-                                                fileList[i].length());
+                for(Map.Entry<String,String> entry : fileList.entrySet())
+                {
+                    File fi = new File(entry.getValue());
+                    
+                    FileModel f = new FileModel(fi.getName(),
+                                                fi.getAbsolutePath(),
+                                                fi.length());
                     folder[3].save(f);
                 }
                 return folder[3].getNumFile();
@@ -223,4 +238,64 @@ public class FileManager {
       
        return true;
     }
+    
+    public void findAllCtgFiles(HashMap<String,String> _lFile,String _path,final String _ctg)
+    {
+        FilterModel f   = new FilterModel();
+        String [] types = f.getFilterArray(_ctg);
+        
+        if(types!=null)
+        {
+            for(String e:types)
+            {
+                  this.findCFile(_lFile, _path,e);
+            }
+        }
+    }
+            
+    
+    private int findCFile(HashMap<String,String> _lFile,String _path,final String _keyword)
+    	{
+    		int numFile = 0;
+    		
+    		if(_lFile!= null)
+    		{
+    			File directory = new File(_path);
+    			
+    			// Directory filter
+    			FilenameFilter dirFilter = new FilenameFilter() {
+    				public boolean accept(File dir, String name) {
+    					String lowercaseName = name.toLowerCase();
+    					if (0==lowercaseName.compareTo("..\\")) {
+    						return false;
+    					} else {
+    						return true;
+    					}
+    				}
+    			};
+    			
+    			File []files = directory.listFiles(dirFilter);
+    			
+    			for(File f:files)
+    			{
+    				String fname = f.getName();
+    				String fpath = f.getAbsolutePath();
+    				
+    				if(f.isFile())
+    				{
+    					if(fname.toLowerCase().endsWith(_keyword))
+    					{
+    						_lFile.put(fname,fpath);
+    						numFile++;
+    					}
+    				}
+    				else if(f.isDirectory())
+    				{
+    					numFile	+= findCFile(_lFile,fpath,_keyword);
+    				}
+    			}
+    		}
+    		
+    		return numFile;
+    	}
 }

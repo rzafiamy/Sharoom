@@ -52,6 +52,18 @@ public class FilterModel {
             };            
     }
     
+    public String[] getFilterArray(String _ctg){
+        
+        switch(_ctg.toUpperCase()){
+            case "MUSIC": return this.musicformat;
+            case "PICTURE": return this.pictureformat;
+            case "DOCUMENT": return this.documentformat;
+            case "VIDEO": return this.videoformat;
+            default:;
+        }
+        return null;
+    }
+    
     public FileFilter getFilter(String _ctg){
         
         switch(_ctg.toUpperCase()){
